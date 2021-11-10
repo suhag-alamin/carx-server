@@ -27,9 +27,27 @@ async function run() {
     const carCollection = database.collection("cars");
 
     // get cars api
+    // app.get("/cars", async (req, res) => {
+    //   const result = await carCollection.find({}).toArray();
+    //   res.send(result);
+    // });
+
+    // page
     app.get("/cars", async (req, res) => {
-      const result = await carCollection.find({}).toArray();
-      res.send(result);
+      const cursor = carCollection.find({});
+      const page = req.query.page;
+      const size = parseInt(req.query.size);
+      let cars;
+      const count = await cursor.count();
+      if (page) {
+        cars = await cursor
+          .skip(page * size)
+          .limit(size)
+          .toArray();
+      } else {
+        cars = await cursor.toArray();
+      }
+      res.send({ count, cars });
     });
   } finally {
     // await client.close()
