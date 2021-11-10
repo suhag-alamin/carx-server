@@ -25,14 +25,9 @@ async function run() {
     await client.connect();
     const database = client.db("carX");
     const carCollection = database.collection("cars");
+    const reviewCollection = database.collection("reviews");
 
-    // get cars api
-    // app.get("/cars", async (req, res) => {
-    //   const result = await carCollection.find({}).toArray();
-    //   res.send(result);
-    // });
-
-    // page
+    // get cars api and pagination
     app.get("/cars", async (req, res) => {
       const cursor = carCollection.find({});
       const page = req.query.page;
@@ -48,6 +43,12 @@ async function run() {
         cars = await cursor.toArray();
       }
       res.send({ count, cars });
+    });
+
+    // get reviews api
+    app.get("/reviews", async (req, res) => {
+      const reviews = await reviewCollection.find({}).toArray();
+      res.send(reviews);
     });
   } finally {
     // await client.close()
