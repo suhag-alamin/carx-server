@@ -77,6 +77,13 @@ async function run() {
       res.json(result);
     });
 
+    // post review api
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
+      res.json(result);
+    });
+
     // save users
     app.post("/users", async (req, res) => {
       const user = req.body;
