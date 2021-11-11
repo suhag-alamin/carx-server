@@ -45,6 +45,14 @@ async function run() {
       res.send({ count, cars });
     });
 
+    // get a singel car api
+    app.get("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await carCollection.findOne(query);
+      res.send(result);
+    });
+
     // get reviews api
     app.get("/reviews", async (req, res) => {
       const reviews = await reviewCollection.find({}).toArray();
