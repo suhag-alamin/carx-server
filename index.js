@@ -114,6 +114,25 @@ async function run() {
       res.json(result);
     });
 
+    // update order status api
+    app.put("/allOrders/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateOrder = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          status: updateOrder.status,
+        },
+      };
+      const result = await orderCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.json(result);
+    });
+
     // delete an order api
     app.delete("/orders/:id", async (req, res) => {
       const id = req.params.id;
