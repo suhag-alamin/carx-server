@@ -27,6 +27,7 @@ async function run() {
     const carCollection = database.collection("cars");
     const reviewCollection = database.collection("reviews");
     const orderCollection = database.collection("orders");
+    const userCollection = database.collection("users");
 
     // get cars api and pagination
     app.get("/cars", async (req, res) => {
@@ -73,6 +74,22 @@ async function run() {
     app.post("/orders", async (req, res) => {
       const order = req.body;
       const result = await orderCollection.insertOne(order);
+      res.json(result);
+    });
+
+    // save users
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.json(result);
+    });
+    // for google login
+    app.put("/users", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const options = { upsert: true };
+      const updateDoc = { $set: user };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
       res.json(result);
     });
 
