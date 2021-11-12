@@ -121,6 +121,23 @@ async function run() {
       res.json(result);
     });
 
+    // update a product (car) api
+    app.put("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedCar = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          carName: updatedCar.carName,
+          price: updatedCar.price,
+          img: updatedCar.img,
+        },
+      };
+      const result = await carCollection.updateOne(filter, updateDoc, options);
+      res.json(result);
+    });
+
     // update order status api
     app.put("/allOrders/:id", async (req, res) => {
       const id = req.params.id;
