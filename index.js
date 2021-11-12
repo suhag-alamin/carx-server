@@ -52,6 +52,7 @@ async function run() {
     const reviewCollection = database.collection("reviews");
     const orderCollection = database.collection("orders");
     const userCollection = database.collection("users");
+    const messageCollection = database.collection("messages");
 
     // get cars api and pagination
     app.get("/cars", async (req, res) => {
@@ -136,6 +137,13 @@ async function run() {
     app.post("/reviews", async (req, res) => {
       const review = req.body;
       const result = await reviewCollection.insertOne(review);
+      res.json(result);
+    });
+
+    // post a message api
+    app.post("/messages", async (req, res) => {
+      const message = req.body;
+      const result = await messageCollection.insertOne(message);
       res.json(result);
     });
 
