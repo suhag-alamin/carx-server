@@ -55,20 +55,25 @@ async function run() {
 
     // get cars api and pagination
     app.get("/cars", verifyToken, async (req, res) => {
-      const cursor = carCollection.find({});
-      const page = req.query.page;
-      const size = parseInt(req.query.size);
-      let cars;
-      const count = await cursor.count();
-      if (page) {
-        cars = await cursor
-          .skip(page * size)
-          .limit(size)
-          .toArray();
+      const requester = req.decodedEmail;
+      if (requester) {
+        const cursor = carCollection.find({});
+        const page = req.query.page;
+        const size = parseInt(req.query.size);
+        let cars;
+        const count = await cursor.count();
+        if (page) {
+          cars = await cursor
+            .skip(page * size)
+            .limit(size)
+            .toArray();
+        } else {
+          cars = await cursor.toArray();
+        }
+        res.send({ count, cars });
       } else {
-        cars = await cursor.toArray();
+        res.status(403).json({ message: "You do not have access." });
       }
-      res.send({ count, cars });
     });
 
     // get a singel car api
@@ -87,8 +92,13 @@ async function run() {
 
     // get all orders
     app.get("/allOrders", verifyToken, async (req, res) => {
-      const orders = await orderCollection.find({}).toArray();
-      res.send(orders);
+      const requester = req.decodedEmail;
+      if (requester) {
+        const orders = await orderCollection.find({}).toArray();
+        res.send(orders);
+      } else {
+        res.status(403).json({ message: "You do not have access." });
+      }
     });
 
     // get a single order
@@ -143,15 +153,20 @@ async function run() {
 
     // make admin
 
-    app.get("/users/:email", async (req, res) => {
-      const email = req.params.email;
-      const query = { email: email };
-      const user = await userCollection.findOne(query);
-      let isAdmin = false;
-      if (user?.role === "admin") {
-        isAdmin = true;
+    app.get("/users/:email", verifyToken, async (req, res) => {
+      const requester = req.decodedEmail;
+      if (require) {
+        const email = req.params.email;
+        const query = { email: email };
+        const user = await userCollection.findOne(query);
+        let isAdmin = false;
+        if (user?.role === "admin") {
+          isAdmin = true;
+        }
+        res.json({ admin: isAdmin });
+      } else {
+        res.status(403).json({ message: "You do not have access." });
       }
-      res.json({ admin: isAdmin });
     });
 
     app.put("/users/admin", verifyToken, async (req, res) => {
