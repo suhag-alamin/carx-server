@@ -54,7 +54,7 @@ async function run() {
     const userCollection = database.collection("users");
 
     // get cars api and pagination
-    app.get("/cars", async (req, res) => {
+    app.get("/cars", verifyToken, async (req, res) => {
       const cursor = carCollection.find({});
       const page = req.query.page;
       const size = parseInt(req.query.size);
@@ -100,7 +100,7 @@ async function run() {
     });
 
     // get order by user emails
-    app.get("/orders", async (req, res) => {
+    app.get("/orders", verifyToken, async (req, res) => {
       const email = req.query.email;
       const query = { userEmail: email };
       const cursor = orderCollection.find(query);
