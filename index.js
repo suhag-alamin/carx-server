@@ -111,6 +111,20 @@ async function run() {
       const result = await userCollection.insertOne(user);
       res.json(result);
     });
+
+    // make admin
+    app.put("/users/admin", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user?.email };
+      const updateDoc = {
+        $set: {
+          role: "admin",
+        },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
     // for google login
     app.put("/users", async (req, res) => {
       const user = req.body;
