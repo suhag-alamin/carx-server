@@ -1,12 +1,21 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
+const admin = require("firebase-admin");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
 
 const app = express();
 
 const port = process.env.PORT || 5000;
+
+// firebase admin sdk
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 // middle ware
 app.use(cors());
@@ -20,6 +29,21 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
+// verify token
+async function verifyToken(req, res, next) {
+  if (req.headers?.authorization?.startsWith("Bearer ")) {
+    const token = req.headers.authorization.split(" ")[1];
+    try {
+      const decodedUser = await admin.auth().verifyIdToken(token);
+      req.decodedEmail = decodedUser.email;
+    } catch {}
+  }
+
+  // next step
+  next();
+}
+
+// run server
 async function run() {
   try {
     await client.connect();
@@ -62,7 +86,7 @@ async function run() {
     });
 
     // get all orders
-    app.get("/allOrders", async (req, res) => {
+    app.get("/allOrders", verifyToken, async (req, res) => {
       const orders = await orderCollection.find({}).toArray();
       res.send(orders);
     });
@@ -125,16 +149,28 @@ async function run() {
       res.json({ admin: isAdmin });
     });
 
-    app.put("/users/admin", async (req, res) => {
+    app.put("/users/admin", verifyToken, async (req, res) => {
+      console.log(req.decodedEmail);
       const user = req.body;
-      const filter = { email: user?.email };
-      const updateDoc = {
-        $set: {
-          role: "admin",
-        },
-      };
-      const result = await userCollection.updateOne(filter, updateDoc);
-      res.json(result);
+
+      const requester = req.decodedEmail;
+      if (requester) {
+        const requesterAccount = await userCollection.findOne({
+          email: requester,
+        });
+        if (requesterAccount.role === "admin") {
+          const filter = { email: user?.email };
+          const updateDoc = {
+            $set: {
+              role: "admin",
+            },
+          };
+          const result = await userCollection.updateOne(filter, updateDoc);
+          res.json(result);
+        }
+      } else {
+        res.status(403).json({ message: "You do not have access." });
+      }
     });
 
     // for google login
