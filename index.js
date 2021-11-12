@@ -140,6 +140,14 @@ async function run() {
       res.json(result);
     });
 
+    // delete a car api
+    app.delete("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await carCollection.deleteOne(query);
+      res.json(result);
+    });
+
     // delete an order api
     app.delete("/orders/:id", async (req, res) => {
       const id = req.params.id;
