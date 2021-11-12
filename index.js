@@ -84,6 +84,13 @@ async function run() {
       res.json(orders);
     });
 
+    // post a product api
+    app.post("/cars", async (req, res) => {
+      const car = req.body;
+      const result = await carCollection.insertOne(car);
+      res.json(result);
+    });
+
     // post order api
     app.post("/orders", async (req, res) => {
       const order = req.body;
