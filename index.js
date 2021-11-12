@@ -54,26 +54,21 @@ async function run() {
     const userCollection = database.collection("users");
 
     // get cars api and pagination
-    app.get("/cars", verifyToken, async (req, res) => {
-      const requester = req.decodedEmail;
-      if (requester) {
-        const cursor = carCollection.find({});
-        const page = req.query.page;
-        const size = parseInt(req.query.size);
-        let cars;
-        const count = await cursor.count();
-        if (page) {
-          cars = await cursor
-            .skip(page * size)
-            .limit(size)
-            .toArray();
-        } else {
-          cars = await cursor.toArray();
-        }
-        res.send({ count, cars });
+    app.get("/cars", async (req, res) => {
+      const cursor = carCollection.find({});
+      const page = req.query.page;
+      const size = parseInt(req.query.size);
+      let cars;
+      const count = await cursor.count();
+      if (page) {
+        cars = await cursor
+          .skip(page * size)
+          .limit(size)
+          .toArray();
       } else {
-        res.status(403).json({ message: "You do not have access." });
+        cars = await cursor.toArray();
       }
+      res.send({ count, cars });
     });
 
     // get a singel car api
