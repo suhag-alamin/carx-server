@@ -4,6 +4,7 @@ const { MongoClient } = require("mongodb");
 const admin = require("firebase-admin");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 const app = express();
 
@@ -133,6 +134,32 @@ async function run() {
       res.json(result);
     });
 
+    // update order for payment
+    app.put("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const payment = req.body;
+      const filter = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          payment: payment,
+        },
+      };
+      const result = await orderCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
+    // stripe payment
+    app.post("/create-payment-intent", async (req, res) => {
+      const paymentInfo = req.body;
+      const amount = paymentInfo.price * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      res.json({ clientSecret: paymentIntent.client_secret });
+    });
+
     // post review api
     app.post("/reviews", async (req, res) => {
       const review = req.body;
@@ -158,7 +185,7 @@ async function run() {
 
     app.get("/users/:email", verifyToken, async (req, res) => {
       const requester = req.decodedEmail;
-      if (require) {
+      if (requester) {
         const email = req.params.email;
         const query = { email: email };
         const user = await userCollection.findOne(query);
