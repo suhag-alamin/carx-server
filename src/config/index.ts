@@ -9,4 +9,10 @@ export default {
   env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 5000,
   databaseURL: process.env.DATABASE_URL,
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET,
+  },
+  firebase: {
+    serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT,
+  },
 };
