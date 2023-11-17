@@ -1,5 +1,5 @@
 import express from 'express';
-import { TestRoute } from '../modules/test/test.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
 
@@ -10,8 +10,8 @@ type IRoute = {
 
 const moduleRoutes: IRoute[] = [
   {
-    path: '/',
-    route: TestRoute,
+    path: '/users',
+    route: UserRoutes,
   },
 ];
 

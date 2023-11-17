@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
-
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
 import { IGenericErrorMessage } from '../../interfaces/error';
 import handleValidationError from '../../errors/handleValidationError';
 import handleCastError from '../../errors/handleCastError';
 import ApiError from '../../errors/ApiError';
+import { Error } from 'mongoose';
+import { ZodError } from 'zod';
+import handleZodError from '../../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   config.env === 'development' && console.log(err);
@@ -18,6 +20,12 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   if (err.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
+    console.log(message);
+  } else if (err instanceof ZodError) {
+    const simplifiedError = handleZodError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
