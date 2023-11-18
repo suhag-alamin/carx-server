@@ -18,4 +18,25 @@ const userSchema = new Schema<IUser, Record<string, unknown>>({
   },
 });
 
+userSchema.methods.isUserExist = async function (email: string): Promise<
+  | {
+      isExist: true;
+      user: IUser;
+    }
+  | {
+      isExist: false;
+    }
+> {
+  const user = await User.findOne({ email });
+  if (user) {
+    return {
+      isExist: true,
+      user,
+    };
+  }
+  return {
+    isExist: false,
+  };
+};
+
 export const User = model<IUser, UserModel>('User', userSchema, 'users');

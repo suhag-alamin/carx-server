@@ -6,9 +6,29 @@ import { userSearchableFields } from './user.constant';
 import { IUser, IUserFilters } from './user.interface';
 import { User } from './user.model';
 
-const saveUser = async (data: IUser): Promise<IUser> => {
-  const result = await User.create(data);
-  return result;
+const saveUser = async (data: IUser): Promise<IUser | null> => {
+  const user = new User();
+  const isUserExist = await user.isUserExist(data.email);
+
+  if (isUserExist) {
+    const result = await User.findOneAndUpdate(
+      {
+        email: data?.email,
+      },
+      {
+        email: data?.email,
+        role: data?.role,
+        displayName: data?.displayName,
+      },
+      {
+        new: true,
+      },
+    );
+    return result;
+  } else {
+    const result = await User.create(data);
+    return result;
+  }
 };
 
 const getAllUsers = async (

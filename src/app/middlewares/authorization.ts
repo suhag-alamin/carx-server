@@ -9,6 +9,11 @@ import getServiceAccount from '../../utils/getServiceAccount';
 import getUser from '../../utils/getUser';
 import { IUser } from '../modules/user/user.interface';
 
+const serviceAccount = getServiceAccount();
+initializeApp({
+  credential: _credential.cert(serviceAccount),
+});
+
 const authorization =
   (...requireRoles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
@@ -18,11 +23,6 @@ const authorization =
       if (!token) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
       }
-
-      const serviceAccount = getServiceAccount();
-      await initializeApp({
-        credential: _credential.cert(serviceAccount),
-      });
 
       if (serviceAccount.private_key) {
         let verifiedUser: DecodedIdToken | null = null;
@@ -45,8 +45,6 @@ const authorization =
         if (!user) {
           throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
         }
-
-        console.log(user);
 
         req.user = user;
 
