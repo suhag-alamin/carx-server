@@ -1,10 +1,10 @@
-import { auth } from 'firebase-admin';
+import { IUseInfo } from './global';
 
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 declare global {
   namespace Express {
     interface Request {
-      user: auth.DecodedIdToken;
+      user: IUseInfo;
     }
   }
 }

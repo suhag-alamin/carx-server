@@ -24,6 +24,8 @@ const getAllUsersController = catchAsync(
     const filters = pick(req.query, userFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
 
+    console.log(req.user);
+
     const result = await UserService.getAllUsers(filters, paginationOptions);
 
     sendResponse<IUser[]>(res, {

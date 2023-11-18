@@ -1,6 +1,6 @@
 import { SortOrder } from 'mongoose';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
-import { IGenericResponse } from '../../../interfaces/common';
+import { IGenericResponse } from '../../../interfaces/global';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { userSearchableFields } from './user.constant';
 import { IUser, IUserFilters } from './user.interface';
