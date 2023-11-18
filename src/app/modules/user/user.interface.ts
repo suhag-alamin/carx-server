@@ -1,6 +1,7 @@
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 
 export type IUser = {
+  _id: ObjectId;
   role: string;
   email: string;
   displayName: string;

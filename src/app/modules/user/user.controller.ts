@@ -24,8 +24,6 @@ const getAllUsersController = catchAsync(
     const filters = pick(req.query, userFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
 
-    console.log(req.user);
-
     const result = await UserService.getAllUsers(filters, paginationOptions);
 
     sendResponse<IUser[]>(res, {
@@ -38,7 +36,19 @@ const getAllUsersController = catchAsync(
   },
 );
 
+const makeAdminController = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.makeAdmin(req.body);
+
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin created successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   saveUserController,
   getAllUsersController,
+  makeAdminController,
 };

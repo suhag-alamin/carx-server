@@ -181,6 +181,7 @@ async function run() {
     });
 
     // save users
+    //✅
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await userCollection.insertOne(user);
@@ -205,6 +206,7 @@ async function run() {
       }
     });
 
+    //✅
     app.put('/users/admin', verifyToken, async (req, res) => {
       console.log(req.decodedEmail);
       const user = req.body;
@@ -229,7 +231,7 @@ async function run() {
       }
     });
 
-    // for google login
+    // for google login  //✅
     app.put('/users', async (req, res) => {
       const user = req.body;
       const filter = { email: user.email };

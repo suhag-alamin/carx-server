@@ -1,24 +1,36 @@
+import httpStatus from 'http-status';
 import { SortOrder } from 'mongoose';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
 import { IGenericResponse } from '../../../interfaces/global';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { userSearchableFields } from './user.constant';
 import { IUser, IUserFilters } from './user.interface';
 import { User } from './user.model';
+import { UserRoles } from '../../../enums/user';
 
 const saveUser = async (data: IUser): Promise<IUser | null> => {
   const user = new User();
   const isUserExist = await user.isUserExist(data.email);
 
-  if (isUserExist) {
-    const result = await User.findOneAndUpdate(
+  if (isUserExist.isExist) {
+    // const result = await User.findOneAndUpdate(
+    //   {
+    //     email: data?.email,
+    //   },
+    // {
+    //   email: data?.email,
+    //   role: data?.role,
+    //   displayName: data?.displayName,
+    // },
+    // {
+    //   new: true,
+    // },
+    // );
+    const result = await User.findByIdAndUpdate(
+      isUserExist?.user._id,
       {
-        email: data?.email,
-      },
-      {
-        email: data?.email,
         role: data?.role,
-        displayName: data?.displayName,
       },
       {
         new: true,
@@ -87,7 +99,28 @@ const getAllUsers = async (
   };
 };
 
+const makeAdmin = async (data: IUser): Promise<IUser | null> => {
+  const user = new User();
+  const isUserExist = await user.isUserExist(data.email);
+
+  if (!isUserExist.isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const result = await User.findByIdAndUpdate(
+    isUserExist.user._id,
+    {
+      role: UserRoles.Admin,
+    },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const UserService = {
   saveUser,
   getAllUsers,
+  makeAdmin,
 };
