@@ -1,5 +1,6 @@
 import express from 'express';
 import { UserRoutes } from '../modules/user/user.route';
+import { CarRoutes } from '../modules/car/car.route';
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ const moduleRoutes: IRoute[] = [
   {
     path: '/users',
     route: UserRoutes,
+  },
+  {
+    path: '/cars',
+    route: CarRoutes,
   },
 ];
 

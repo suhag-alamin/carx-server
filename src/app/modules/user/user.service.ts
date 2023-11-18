@@ -14,19 +14,6 @@ const saveUser = async (data: IUser): Promise<IUser | null> => {
   const isUserExist = await user.isUserExist(data.email);
 
   if (isUserExist.isExist) {
-    // const result = await User.findOneAndUpdate(
-    //   {
-    //     email: data?.email,
-    //   },
-    // {
-    //   email: data?.email,
-    //   role: data?.role,
-    //   displayName: data?.displayName,
-    // },
-    // {
-    //   new: true,
-    // },
-    // );
     const result = await User.findByIdAndUpdate(
       isUserExist?.user._id,
       {

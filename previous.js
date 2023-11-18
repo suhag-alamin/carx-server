@@ -61,7 +61,7 @@ async function run() {
     const userCollection = database.collection('users');
     const messageCollection = database.collection('messages');
 
-    // get cars api and pagination
+    // get cars api and pagination  //✅
     app.get('/cars', async (req, res) => {
       const cursor = carCollection.find({});
       const page = req.query.page;
@@ -79,7 +79,7 @@ async function run() {
       res.send({ count, cars });
     });
 
-    // get a singel car api
+    // get a singel car api  //✅
     app.get('/cars/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -126,7 +126,7 @@ async function run() {
       }
     });
 
-    // post a product api
+    // post a product api  //✅
     app.post('/cars', async (req, res) => {
       const car = req.body;
       const result = await carCollection.insertOne(car);
@@ -241,7 +241,7 @@ async function run() {
       res.json(result);
     });
 
-    // update a product (car) api
+    // update a product (car) api  //✅
     app.put('/cars/:id', async (req, res) => {
       const id = req.params.id;
       const updatedCar = req.body;
@@ -277,7 +277,7 @@ async function run() {
       res.json(result);
     });
 
-    // delete a car api
+    // delete a car api  //✅
     app.delete('/cars/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };

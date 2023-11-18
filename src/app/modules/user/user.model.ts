@@ -1,9 +1,11 @@
 import { Schema, model } from 'mongoose';
+import { userRoles } from './user.constant';
 import { IUser, UserModel } from './user.interface';
 
 const userSchema = new Schema<IUser, Record<string, unknown>>({
   role: {
     type: String,
+    enum: userRoles,
     default: 'user',
     required: true,
   },

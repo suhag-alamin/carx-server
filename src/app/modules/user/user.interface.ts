@@ -1,8 +1,10 @@
 import { Model, ObjectId } from 'mongoose';
 
+export type IUserRoles = 'user' | 'admin' | 'superAdmin';
+
 export type IUser = {
   _id: ObjectId;
-  role: string;
+  role: IUserRoles;
   email: string;
   displayName: string;
 };
