@@ -14,7 +14,7 @@ const createCarController = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ICar>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Car saved successfully',
+    message: 'Car created successfully',
     data: result,
   });
 });

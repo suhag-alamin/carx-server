@@ -56,10 +56,10 @@ async function run() {
     await client.connect();
     const database = client.db('carX');
     const carCollection = database.collection('cars');
-    const reviewCollection = database.collection('reviews');
-    const orderCollection = database.collection('orders');
+    const reviewCollection = database.collection('reviews'); // !
+    const orderCollection = database.collection('orders'); // !
     const userCollection = database.collection('users');
-    const messageCollection = database.collection('messages');
+    const messageCollection = database.collection('messages'); // !
 
     // get cars api and pagination  //✅
     app.get('/cars', async (req, res) => {
@@ -188,7 +188,7 @@ async function run() {
       res.json(result);
     });
 
-    // make admin
+    // make admin  //✅
 
     app.get('/users/:email', verifyToken, async (req, res) => {
       const requester = req.decodedEmail;

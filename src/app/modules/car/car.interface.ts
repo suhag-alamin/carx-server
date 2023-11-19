@@ -1,7 +1,7 @@
-import { Model, ObjectId } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export type ICar = {
-  _id: ObjectId;
+  _id: Types.ObjectId;
   carName: string;
   description: string;
   price: number;

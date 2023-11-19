@@ -1,9 +1,9 @@
-import { Model, ObjectId } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export type IUserRoles = 'user' | 'admin' | 'superAdmin';
 
 export type IUser = {
-  _id: ObjectId;
+  _id: Types.ObjectId;
   role: IUserRoles;
   email: string;
   displayName: string;
