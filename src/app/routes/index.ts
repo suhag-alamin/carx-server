@@ -2,6 +2,7 @@ import express from 'express';
 import { UserRoutes } from '../modules/user/user.route';
 import { CarRoutes } from '../modules/car/car.route';
 import { OrderRoutes } from '../modules/order/order.route';
+import { ReviewRoutes } from '../modules/review/review.route';
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const moduleRoutes: IRoute[] = [
   {
     path: '/orders',
     route: OrderRoutes,
+  },
+  {
+    path: '/reviews',
+    route: ReviewRoutes,
   },
 ];
 

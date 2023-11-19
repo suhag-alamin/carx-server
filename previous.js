@@ -57,7 +57,7 @@ async function run() {
     const database = client.db('carX');
     const carCollection = database.collection('cars');
     const reviewCollection = database.collection('reviews'); // !
-    const orderCollection = database.collection('orders'); // !
+    const orderCollection = database.collection('orders');
     const userCollection = database.collection('users');
     const messageCollection = database.collection('messages'); // !
 
@@ -112,7 +112,7 @@ async function run() {
       res.send(result);
     });
 
-    // get order by user emails
+    // get order by user emails //✅
     app.get('/orders', verifyToken, async (req, res) => {
       const email = req.query.email;
       const requester = req.decodedEmail;
