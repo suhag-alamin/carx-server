@@ -38,6 +38,28 @@ const getAllOrdersController = catchAsync(
   },
 );
 
+const getAllOrdersByUserController = catchAsync(
+  async (req: Request, res: Response) => {
+    const filters = pick(req.query, orderFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
+    const user = req.user;
+
+    const result = await OrderService.getAllOrdersByUser(
+      filters,
+      paginationOptions,
+      user,
+    );
+
+    sendResponse<IOrder[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Orders retrieved successfully',
+      meta: result.meta,
+      data: result.data,
+    });
+  },
+);
+
 const getSingleOrderController = catchAsync(
   async (req: Request, res: Response) => {
     const result = await OrderService.getSingleOrder(req.params.id);
@@ -80,6 +102,7 @@ const deleteOrderController = catchAsync(
 export const OrderController = {
   createOrderController,
   getAllOrdersController,
+  getAllOrdersByUserController,
   getSingleOrderController,
   updateOrderController,
   deleteOrderController,

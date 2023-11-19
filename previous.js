@@ -93,7 +93,7 @@ async function run() {
       res.send(reviews);
     });
 
-    // get all orders
+    // get all orders //✅
     app.get('/allOrders', verifyToken, async (req, res) => {
       const requester = req.decodedEmail;
       if (requester) {
@@ -104,7 +104,7 @@ async function run() {
       }
     });
 
-    // get a single order
+    // get a single order //✅
     app.get('/allOrders/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -133,14 +133,14 @@ async function run() {
       res.json(result);
     });
 
-    // post order api
+    // post order api //✅
     app.post('/orders', async (req, res) => {
       const order = req.body;
       const result = await orderCollection.insertOne(order);
       res.json(result);
     });
 
-    // update order for payment
+    // update order for payment //✅
     app.put('/orders/:id', async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
@@ -258,7 +258,7 @@ async function run() {
       res.json(result);
     });
 
-    // update order status api
+    // update order status api //✅
     app.put('/allOrders/:id', async (req, res) => {
       const id = req.params.id;
       const updateOrder = req.body;
@@ -285,7 +285,7 @@ async function run() {
       res.json(result);
     });
 
-    // delete an order api
+    // delete an order api //✅
     app.delete('/orders/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };

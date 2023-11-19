@@ -9,6 +9,7 @@ import { IPayment } from '../payment/payment.interface';
 import { Payment } from '../payment/payment.model';
 import { IOrder, IOrderFilters } from './order.interface';
 import { Order } from './order.mode';
+import { IUser } from '../user/user.interface';
 
 const createOrder = async (data: IOrder): Promise<IOrder | null> => {
   const { payment, ...orderData } = data;
@@ -120,6 +121,58 @@ const getAllOrders = async (
     data: result,
   };
 };
+const getAllOrdersByUser = async (
+  filters: IOrderFilters,
+  paginationOptions: IPaginationOptions,
+  user: IUser,
+): Promise<IGenericResponse<IOrder[]>> => {
+  const { ...filtersData } = filters;
+
+  const andConditions = [];
+
+  andConditions.push({
+    $and: [{ user: user._id }],
+  });
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
+  const sortCondition: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortCondition[sortBy] = sortOrder;
+  }
+
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Order.find(whereConditions)
+    .sort(sortCondition)
+    .skip(skip)
+    .limit(limit)
+    .populate('user')
+    .populate('car')
+    .populate('payment');
+
+  const total = await Order.countDocuments(whereConditions);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
 
 const getSingleOrder = async (id: string): Promise<IOrder | null> => {
   const result = await Order.findById(id)
@@ -151,6 +204,7 @@ const deleteOrder = async (id: string): Promise<IOrder | null> => {
 export const OrderService = {
   createOrder,
   getAllOrders,
+  getAllOrdersByUser,
   getSingleOrder,
   updateOrder,
   deleteOrder,
