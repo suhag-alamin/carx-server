@@ -5,11 +5,10 @@ import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
 import { IGenericResponse } from '../../../interfaces/global';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { IPayment } from '../payment/payment.interface';
 import { Payment } from '../payment/payment.model';
-import { OrderSearchableFields } from './order.constant';
 import { IOrder, IOrderFilters } from './order.interface';
 import { Order } from './order.mode';
-import { IPayment } from '../payment/payment.interface';
 
 const createOrder = async (data: IOrder): Promise<IOrder | null> => {
   const { payment, ...orderData } = data;
@@ -24,8 +23,6 @@ const createOrder = async (data: IOrder): Promise<IOrder | null> => {
       'Payment already exist, please try again',
     );
   }
-
-  let newOrderData = null;
 
   const session = await mongoose.startSession();
   try {
@@ -64,7 +61,7 @@ const createOrder = async (data: IOrder): Promise<IOrder | null> => {
     await session.commitTransaction();
     session.endSession();
 
-    newOrderData = order[0];
+    return order[0];
   } catch (err) {
     session.abortTransaction();
     // eslint-disable-next-line no-unused-expressions
@@ -74,35 +71,15 @@ const createOrder = async (data: IOrder): Promise<IOrder | null> => {
       'Failed to place order, please try again',
     );
   }
-
-  if (newOrderData) {
-    newOrderData = await Order.findById(newOrderData._id)
-      .populate('user')
-      .populate('car')
-      .populate('payment');
-  }
-
-  return newOrderData;
 };
 
 const getAllOrders = async (
   filters: IOrderFilters,
   paginationOptions: IPaginationOptions,
 ): Promise<IGenericResponse<IOrder[]>> => {
-  const { query, ...filtersData } = filters;
+  const { ...filtersData } = filters;
 
   const andConditions = [];
-
-  if (query) {
-    andConditions.push({
-      $or: OrderSearchableFields.map(field => ({
-        [field]: {
-          $regex: query,
-          $options: 'i',
-        },
-      })),
-    });
-  }
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
@@ -127,7 +104,10 @@ const getAllOrders = async (
   const result = await Order.find(whereConditions)
     .sort(sortCondition)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate('user')
+    .populate('car')
+    .populate('payment');
 
   const total = await Order.countDocuments(whereConditions);
 
@@ -142,7 +122,10 @@ const getAllOrders = async (
 };
 
 const getSingleOrder = async (id: string): Promise<IOrder | null> => {
-  const result = await Order.findById(id);
+  const result = await Order.findById(id)
+    .populate('user')
+    .populate('car')
+    .populate('payment');
   return result;
 };
 

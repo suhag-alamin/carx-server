@@ -68,9 +68,9 @@ const updateOrderZodSchema = z.object({
     car: z.string().optional(),
     orderDetails: z
       .object({
-        totalAmount: z.number(),
-        status: z.enum([...orderStatus] as [string, ...string[]]),
-        color: z.string(),
+        totalAmount: z.number().optional(),
+        status: z.enum([...orderStatus] as [string, ...string[]]).optional(),
+        color: z.string().optional(),
         deliveryDetails: z
           .object({
             address: z.string(),

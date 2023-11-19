@@ -9,32 +9,32 @@ const router = express.Router();
 
 router.post(
   '/',
-  // authentication(UserRoles.User,),
+  authentication(UserRoles.User),
   validateRequest(OrderValidation.createOrderZodSchema),
   OrderController.createOrderController,
 );
 
 router.get(
   '/',
-  authentication(UserRoles.Admin, UserRoles.SuperAdmin),
+  // authentication(UserRoles.Admin, UserRoles.SuperAdmin),
   OrderController.getAllOrdersController,
 );
 router.get(
   '/:id',
-  authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
+  // authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
   OrderController.getSingleOrderController,
 );
 
 router.patch(
   '/:id',
-  authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
+  // authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
   validateRequest(OrderValidation.updateOrderZodSchema),
   OrderController.updateOrderController,
 );
 
 router.delete(
   '/:id',
-  authentication(UserRoles.Admin, UserRoles.SuperAdmin),
+  // authentication(UserRoles.Admin, UserRoles.SuperAdmin),
   OrderController.deleteOrderController,
 );
 

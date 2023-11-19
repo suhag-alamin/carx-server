@@ -5,8 +5,8 @@ import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { OrderService } from './order.service';
-import { OrderFilterableFields } from './order.constant';
 import { IOrder } from './order.interface';
+import { orderFilterableFields } from './order.constant';
 
 const createOrderController = catchAsync(
   async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ const createOrderController = catchAsync(
 
 const getAllOrdersController = catchAsync(
   async (req: Request, res: Response) => {
-    const filters = pick(req.query, OrderFilterableFields);
+    const filters = pick(req.query, orderFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
 
     const result = await OrderService.getAllOrders(filters, paginationOptions);
