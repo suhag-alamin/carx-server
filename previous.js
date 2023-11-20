@@ -154,7 +154,7 @@ async function run() {
       res.json(result);
     });
 
-    //! stripe payment
+    //stripe payment //✅
     app.post('/create-payment-intent', async (req, res) => {
       const paymentInfo = req.body;
       const amount = paymentInfo.price * 100;

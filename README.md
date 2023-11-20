@@ -2,28 +2,50 @@
 
 # Carx - Affordability at your fingertip (Server-side)
 
-### MERN Stack project (7 days)
-
 [Visit our website](https://carx-b99bf.web.app/)
 
 [Client-side Code](https://github.com/developer-suhag/carx-client)
 
-## Featured in -
+## Features
 
-- Niche product-related website includes a user dashboard to view their orders.
-- Secure API with JWT token and Payment gateway included
-- Users can rate the site, and the review will be displayed in the slider on the home page.
-- Admin can add or remove products and manage all orders.
-- Carx is a website for selling cars.
-- We have an easy-to-use website where you can order your car. Delivery service is available as well.
-- From our website you can know our previous clients feedback.
-- Improved performance by optimizing and resizing images
-- Used Axios to fetch data
+- Auth
+  - User can login with Google
+  - User can login with email and password
+  - User can create an account
+- Car
+  - Admin can add a car to the database
+  - Admin can delete a car from the database
+  - Admin can update a car in the database
+  - User can get all the cars from the database
+  - User can get a single car from the database
+- Order
+  - User can place an order
+  - User can get all the orders he/she placed
+  - Admin can get all the orders
+  - Admin can update the status of an order
+- Payment
+  - User can pay for an order
+  - User can get all the payments he/she made
+  - Admin can get all the payments
+- Review
+  - User can add a review
+  - User can get all the reviews he/she added
+  - Admin can get all the reviews
+  - Admin can delete a review
+- Message
+  - User can send a message
+  - Admin can get all the messages in their inbox
 
 ## Technology Used -
 
-React.js, Material UI, CSS, Node.js, Express.js, MongoDB atlas, Firebase,
-Heroku, Stripe.
+- TypeScript
+- Node.js
+- Express.js
+- MongoDB
+- Firebase
+- Stripe
+- Node Mailer
+- Zod
 
 ## Author
 
