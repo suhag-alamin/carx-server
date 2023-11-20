@@ -15,4 +15,9 @@ export default {
   firebase: {
     serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT,
   },
+  email: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+    to_email: process.env.TO_EMAIL,
+  },
 };

@@ -56,7 +56,7 @@ async function run() {
     await client.connect();
     const database = client.db('carX');
     const carCollection = database.collection('cars');
-    const reviewCollection = database.collection('reviews'); // !
+    const reviewCollection = database.collection('reviews');
     const orderCollection = database.collection('orders');
     const userCollection = database.collection('users');
     const messageCollection = database.collection('messages'); // !
@@ -87,7 +87,7 @@ async function run() {
       res.send(result);
     });
 
-    // get reviews api
+    // get reviews api //✅
     app.get('/reviews', async (req, res) => {
       const reviews = await reviewCollection.find({}).toArray();
       res.send(reviews);
@@ -166,7 +166,7 @@ async function run() {
       res.json({ clientSecret: paymentIntent.client_secret });
     });
 
-    // post review api
+    // post review api //✅
     app.post('/reviews', async (req, res) => {
       const review = req.body;
       const result = await reviewCollection.insertOne(review);
