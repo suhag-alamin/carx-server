@@ -4,6 +4,7 @@ import { CarRoutes } from '../modules/car/car.route';
 import { OrderRoutes } from '../modules/order/order.route';
 import { ReviewRoutes } from '../modules/review/review.route';
 import { MessageRoutes } from '../modules/message/message.route';
+import { PaymentRoutes } from '../modules/payment/payment.route';
 
 const router = express.Router();
 
@@ -28,6 +29,10 @@ const moduleRoutes: IRoute[] = [
   {
     path: '/reviews',
     route: ReviewRoutes,
+  },
+  {
+    path: '/payment',
+    route: PaymentRoutes,
   },
   {
     path: '/message',

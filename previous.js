@@ -59,7 +59,7 @@ async function run() {
     const reviewCollection = database.collection('reviews');
     const orderCollection = database.collection('orders');
     const userCollection = database.collection('users');
-    const messageCollection = database.collection('messages'); // !
+    const messageCollection = database.collection('messages');
 
     // get cars api and pagination  //✅
     app.get('/cars', async (req, res) => {
@@ -154,7 +154,7 @@ async function run() {
       res.json(result);
     });
 
-    // stripe payment
+    //! stripe payment
     app.post('/create-payment-intent', async (req, res) => {
       const paymentInfo = req.body;
       const amount = paymentInfo.price * 100;
@@ -173,7 +173,7 @@ async function run() {
       res.json(result);
     });
 
-    // post a message api
+    // post a message api //✅
     app.post('/messages', async (req, res) => {
       const message = req.body;
       const result = await messageCollection.insertOne(message);

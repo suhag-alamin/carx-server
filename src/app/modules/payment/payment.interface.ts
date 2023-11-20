@@ -10,3 +10,9 @@ export type IPayment = {
 };
 
 export type PaymentModel = Model<IPayment, Record<string, unknown>>;
+
+export type IPaymentData = {
+  amount: number;
+  currency: string;
+  email: string;
+};
