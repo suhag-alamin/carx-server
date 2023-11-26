@@ -14,14 +14,14 @@ type IDeliveryDetails = {
 type IOrderDetails = {
   totalAmount: number;
   status: 'pending' | 'shipped' | 'delivered' | 'cancelled';
-  color: string;
+  // color: string;
   deliveryDetails: IDeliveryDetails;
 };
 
 export type IOrder = {
   _id: Types.ObjectId;
   user: Types.ObjectId | IUser;
-  car: Types.ObjectId | ICar;
+  cars: Types.ObjectId[] | ICar[];
   orderDetails: IOrderDetails;
   payment: Types.ObjectId | IPayment;
 };

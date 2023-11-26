@@ -107,7 +107,7 @@ const getAllOrders = async (
     .skip(skip)
     .limit(limit)
     .populate('user')
-    .populate('car')
+    .populate('cars')
     .populate('payment');
 
   const total = await Order.countDocuments(whereConditions);
@@ -159,7 +159,7 @@ const getAllOrdersByUser = async (
     .skip(skip)
     .limit(limit)
     .populate('user')
-    .populate('car')
+    .populate('cars')
     .populate('payment');
 
   const total = await Order.countDocuments(whereConditions);

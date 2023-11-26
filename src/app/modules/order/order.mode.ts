@@ -9,8 +9,8 @@ const OrderSchema = new Schema<IOrder, Record<string, unknown>>(
       ref: 'User',
       required: true,
     },
-    car: {
-      type: Schema.Types.ObjectId,
+    cars: {
+      type: [Schema.Types.ObjectId],
       ref: 'Car',
       required: true,
     },
@@ -24,10 +24,10 @@ const OrderSchema = new Schema<IOrder, Record<string, unknown>>(
         enum: orderStatus,
         required: true,
       },
-      color: {
-        type: String,
-        required: true,
-      },
+      // color: {
+      //   type: String,
+      //   required: true,
+      // },
       deliveryDetails: {
         address: {
           type: String,

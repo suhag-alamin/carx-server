@@ -13,21 +13,35 @@ const saveUser = async (data: IUser): Promise<IUser | null> => {
   const user = new User();
   const isUserExist = await user.isUserExist(data.email);
 
-  if (isUserExist.isExist) {
-    const result = await User.findByIdAndUpdate(
-      isUserExist?.user._id,
-      {
-        role: data?.role,
-      },
-      {
-        new: true,
-      },
-    );
-    return result;
-  } else {
-    const result = await User.create(data);
+  if (!isUserExist.isExist) {
+    const result = await User.create({
+      ...data,
+      role: data?.role || UserRoles.User,
+    });
     return result;
   }
+  return null;
+
+  // if (isUserExist.isExist) {
+  //   const result = await User.findByIdAndUpdate(
+  //     isUserExist?.user._id,
+  //     {
+  //       role: data?.role || UserRoles.User,
+  //     },
+  //     {
+  //       new: true,
+  //     },
+  //   );
+  //   return result;
+  // }
+  // return null;
+  // else {
+  //   const result = await User.create({
+  //     ...data,
+  //     role: data?.role || UserRoles.User,
+  //   });
+  //   return result;
+  // }
 };
 
 const getAllUsers = async (
@@ -86,6 +100,17 @@ const getAllUsers = async (
   };
 };
 
+const getUserDetails = async (email: string): Promise<IUser | null> => {
+  const user = new User();
+  const isUserExist = await user.isUserExist(email);
+
+  if (!isUserExist.isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  return isUserExist.user;
+};
+
 const makeAdmin = async (data: IUser): Promise<IUser | null> => {
   const user = new User();
   const isUserExist = await user.isUserExist(data.email);
@@ -109,5 +134,6 @@ const makeAdmin = async (data: IUser): Promise<IUser | null> => {
 export const UserService = {
   saveUser,
   getAllUsers,
+  getUserDetails,
   makeAdmin,
 };

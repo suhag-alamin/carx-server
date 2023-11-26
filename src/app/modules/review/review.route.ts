@@ -19,14 +19,14 @@ router.get('/:id', ReviewController.getSingleReviewController);
 
 router.patch(
   '/:id',
-  // authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
+  authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
   validateRequest(ReviewValidation.updateReviewZodSchema),
   ReviewController.updateReviewController,
 );
 
 router.delete(
   '/:id',
-  // authentication(UserRoles.Admin, UserRoles.SuperAdmin),
+  authentication(UserRoles.Admin, UserRoles.SuperAdmin),
   ReviewController.deleteReviewController,
 );
 

@@ -35,6 +35,18 @@ const getAllUsersController = catchAsync(
     });
   },
 );
+const getUserDetailsController = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await UserService.getUserDetails(req.params.email);
+
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User retrieved successfully',
+      data: result,
+    });
+  },
+);
 
 const makeAdminController = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.makeAdmin(req.body);
@@ -50,5 +62,6 @@ const makeAdminController = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
   saveUserController,
   getAllUsersController,
+  getUserDetailsController,
   makeAdminController,
 };

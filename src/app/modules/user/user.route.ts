@@ -24,5 +24,6 @@ router.get(
   authentication(UserRoles.Admin, UserRoles.SuperAdmin),
   UserController.getAllUsersController,
 );
+router.get('/:email', UserController.getUserDetailsController);
 
 export const UserRoutes = router;
