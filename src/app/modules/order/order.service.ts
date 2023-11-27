@@ -178,7 +178,7 @@ const getAllOrdersByUser = async (
 const getSingleOrder = async (id: string): Promise<IOrder | null> => {
   const result = await Order.findById(id)
     .populate('user')
-    .populate('car')
+    .populate('cars')
     .populate('payment');
   return result;
 };

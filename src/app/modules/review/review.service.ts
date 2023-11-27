@@ -35,7 +35,8 @@ const getAllReviews = async (
   const result = await Review.find()
     .sort(sortCondition)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate('user');
 
   const total = await Review.countDocuments();
 
@@ -50,7 +51,7 @@ const getAllReviews = async (
 };
 
 const getSingleReview = async (id: string): Promise<IReview | null> => {
-  const result = await Review.findById(id);
+  const result = await Review.findById(id).populate('user');
   return result;
 };
 
