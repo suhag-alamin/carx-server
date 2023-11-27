@@ -41,6 +41,15 @@ const getAllUsersController = (0, catchAsync_1.default)((req, res) => __awaiter(
         data: result.data,
     });
 }));
+const getUserDetailsController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserService.getUserDetails(req.params.email);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User retrieved successfully',
+        data: result,
+    });
+}));
 const makeAdminController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_service_1.UserService.makeAdmin(req.body);
     (0, sendResponse_1.default)(res, {
@@ -53,5 +62,6 @@ const makeAdminController = (0, catchAsync_1.default)((req, res) => __awaiter(vo
 exports.UserController = {
     saveUserController,
     getAllUsersController,
+    getUserDetailsController,
     makeAdminController,
 };

@@ -14,4 +14,5 @@ const router = express_1.default.Router();
 router.post('/', (0, validateRequest_1.default)(user_validation_1.UserValidation.saveUserZodSchema), user_controller_1.UserController.saveUserController);
 router.patch('/make-admin', (0, authorization_1.default)(user_1.UserRoles.Admin, user_1.UserRoles.SuperAdmin), user_controller_1.UserController.makeAdminController);
 router.get('/', (0, authorization_1.default)(user_1.UserRoles.Admin, user_1.UserRoles.SuperAdmin), user_controller_1.UserController.getAllUsersController);
+router.get('/:email', user_controller_1.UserController.getUserDetailsController);
 exports.UserRoutes = router;

@@ -27,6 +27,7 @@ exports.OrderService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../../config"));
+const order_1 = require("../../../enums/order");
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const payment_model_1 = require("../payment/payment.model");
@@ -86,7 +87,7 @@ const getAllOrders = (filters, paginationOptions) => __awaiter(void 0, void 0, v
         .skip(skip)
         .limit(limit)
         .populate('user')
-        .populate('car')
+        .populate('cars')
         .populate('payment');
     const total = yield order_mode_1.Order.countDocuments(whereConditions);
     return {
@@ -122,7 +123,7 @@ const getAllOrdersByUser = (filters, paginationOptions, user) => __awaiter(void 
         .skip(skip)
         .limit(limit)
         .populate('user')
-        .populate('car')
+        .populate('cars')
         .populate('payment');
     const total = yield order_mode_1.Order.countDocuments(whereConditions);
     return {
@@ -137,7 +138,7 @@ const getAllOrdersByUser = (filters, paginationOptions, user) => __awaiter(void 
 const getSingleOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield order_mode_1.Order.findById(id)
         .populate('user')
-        .populate('car')
+        .populate('cars')
         .populate('payment');
     return result;
 });
@@ -147,6 +148,16 @@ const updateOrder = (id, data) => __awaiter(void 0, void 0, void 0, function* ()
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Order not found');
     }
     const result = yield order_mode_1.Order.findByIdAndUpdate(id, data, { new: true });
+    return result;
+});
+const cancelOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExist = yield order_mode_1.Order.findById(id);
+    if (!isExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Order not found');
+    }
+    const result = yield order_mode_1.Order.findByIdAndUpdate(id, {
+        orderDetails: Object.assign(Object.assign({}, isExist.orderDetails), { status: order_1.orderStatusEnum.cancelled }),
+    }, { new: true });
     return result;
 });
 const deleteOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -159,5 +170,6 @@ exports.OrderService = {
     getAllOrdersByUser,
     getSingleOrder,
     updateOrder,
+    cancelOrder,
     deleteOrder,
 };

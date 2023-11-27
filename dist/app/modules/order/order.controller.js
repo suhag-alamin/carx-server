@@ -72,6 +72,15 @@ const updateOrderController = (0, catchAsync_1.default)((req, res) => __awaiter(
         data: result,
     });
 }));
+const cancelOrderController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_service_1.OrderService.cancelOrder(req.params.id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Order cancelled, we will refund your money.',
+        data: result,
+    });
+}));
 const deleteOrderController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield order_service_1.OrderService.deleteOrder(req.params.id);
     (0, sendResponse_1.default)(res, {
@@ -87,5 +96,6 @@ exports.OrderController = {
     getAllOrdersByUserController,
     getSingleOrderController,
     updateOrderController,
+    cancelOrderController,
     deleteOrderController,
 };

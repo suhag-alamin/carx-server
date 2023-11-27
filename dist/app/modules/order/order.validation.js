@@ -8,9 +8,11 @@ const createOrderZodSchema = zod_1.z.object({
         user: zod_1.z.string({
             required_error: 'User is required',
         }),
-        car: zod_1.z.string({
+        cars: zod_1.z
+            .string({
             required_error: 'Car is required',
-        }),
+        })
+            .array(),
         orderDetails: zod_1.z.object({
             totalAmount: zod_1.z.number({
                 required_error: 'Total amount is required',
@@ -18,9 +20,9 @@ const createOrderZodSchema = zod_1.z.object({
             status: zod_1.z.enum([...order_constant_1.orderStatus], {
                 required_error: 'Status is required',
             }),
-            color: zod_1.z.string({
-                required_error: 'Color is required',
-            }),
+            // color: z.string({
+            //   required_error: 'Color is required',
+            // }),
             deliveryDetails: zod_1.z.object({
                 address: zod_1.z.string({
                     required_error: 'Address is required',
@@ -64,7 +66,7 @@ const createOrderZodSchema = zod_1.z.object({
 const updateOrderZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         user: zod_1.z.string().optional(),
-        car: zod_1.z.string().optional(),
+        cars: zod_1.z.string().array().optional(),
         orderDetails: zod_1.z
             .object({
             totalAmount: zod_1.z.number().optional(),

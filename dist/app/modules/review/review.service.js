@@ -34,7 +34,8 @@ const getAllReviews = (paginationOptions) => __awaiter(void 0, void 0, void 0, f
     const result = yield review_mode_1.Review.find()
         .sort(sortCondition)
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        .populate('user');
     const total = yield review_mode_1.Review.countDocuments();
     return {
         meta: {
@@ -46,7 +47,7 @@ const getAllReviews = (paginationOptions) => __awaiter(void 0, void 0, void 0, f
     };
 });
 const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield review_mode_1.Review.findById(id);
+    const result = yield review_mode_1.Review.findById(id).populate('user');
     return result;
 });
 const updateReview = (id, data) => __awaiter(void 0, void 0, void 0, function* () {

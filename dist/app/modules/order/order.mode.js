@@ -9,8 +9,8 @@ const OrderSchema = new mongoose_1.Schema({
         ref: 'User',
         required: true,
     },
-    car: {
-        type: mongoose_1.Schema.Types.ObjectId,
+    cars: {
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: 'Car',
         required: true,
     },
@@ -24,10 +24,10 @@ const OrderSchema = new mongoose_1.Schema({
             enum: order_constant_1.orderStatus,
             required: true,
         },
-        color: {
-            type: String,
-            required: true,
-        },
+        // color: {
+        //   type: String,
+        //   required: true,
+        // },
         deliveryDetails: {
             address: {
                 type: String,

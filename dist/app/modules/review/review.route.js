@@ -14,10 +14,6 @@ const router = express_1.default.Router();
 router.post('/', (0, authorization_1.default)(user_1.UserRoles.User), (0, validateRequest_1.default)(review_validation_1.ReviewValidation.createReviewZodSchema), review_controller_1.ReviewController.createReviewController);
 router.get('/', review_controller_1.ReviewController.getAllReviewsController);
 router.get('/:id', review_controller_1.ReviewController.getSingleReviewController);
-router.patch('/:id', 
-// authentication(UserRoles.Admin, UserRoles.SuperAdmin, UserRoles.User),
-(0, validateRequest_1.default)(review_validation_1.ReviewValidation.updateReviewZodSchema), review_controller_1.ReviewController.updateReviewController);
-router.delete('/:id', 
-// authentication(UserRoles.Admin, UserRoles.SuperAdmin),
-review_controller_1.ReviewController.deleteReviewController);
+router.patch('/:id', (0, authorization_1.default)(user_1.UserRoles.Admin, user_1.UserRoles.SuperAdmin, user_1.UserRoles.User), (0, validateRequest_1.default)(review_validation_1.ReviewValidation.updateReviewZodSchema), review_controller_1.ReviewController.updateReviewController);
+router.delete('/:id', (0, authorization_1.default)(user_1.UserRoles.Admin, user_1.UserRoles.SuperAdmin), review_controller_1.ReviewController.deleteReviewController);
 exports.ReviewRoutes = router;

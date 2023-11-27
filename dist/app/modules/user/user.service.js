@@ -33,18 +33,31 @@ const user_1 = require("../../../enums/user");
 const saveUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new user_model_1.User();
     const isUserExist = yield user.isUserExist(data.email);
-    if (isUserExist.isExist) {
-        const result = yield user_model_1.User.findByIdAndUpdate(isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.user._id, {
-            role: data === null || data === void 0 ? void 0 : data.role,
-        }, {
-            new: true,
-        });
+    if (!isUserExist.isExist) {
+        const result = yield user_model_1.User.create(Object.assign(Object.assign({}, data), { role: (data === null || data === void 0 ? void 0 : data.role) || user_1.UserRoles.User }));
         return result;
     }
-    else {
-        const result = yield user_model_1.User.create(data);
-        return result;
-    }
+    return null;
+    // if (isUserExist.isExist) {
+    //   const result = await User.findByIdAndUpdate(
+    //     isUserExist?.user._id,
+    //     {
+    //       role: data?.role || UserRoles.User,
+    //     },
+    //     {
+    //       new: true,
+    //     },
+    //   );
+    //   return result;
+    // }
+    // return null;
+    // else {
+    //   const result = await User.create({
+    //     ...data,
+    //     role: data?.role || UserRoles.User,
+    //   });
+    //   return result;
+    // }
 });
 const getAllUsers = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { query } = filters, filtersData = __rest(filters, ["query"]);
@@ -86,6 +99,14 @@ const getAllUsers = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         data: result,
     };
 });
+const getUserDetails = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = new user_model_1.User();
+    const isUserExist = yield user.isUserExist(email);
+    if (!isUserExist.isExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    return isUserExist.user;
+});
 const makeAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new user_model_1.User();
     const isUserExist = yield user.isUserExist(data.email);
@@ -102,5 +123,6 @@ const makeAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
 exports.UserService = {
     saveUser,
     getAllUsers,
+    getUserDetails,
     makeAdmin,
 };
