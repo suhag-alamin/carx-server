@@ -3,14 +3,14 @@
 import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import routes from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import routes from './app/routes';
 
 const app: Application = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://carx-b99bf.web.app/'],
+    origin: ['https://carx-b99bf.web.app', 'http://localhost:3000'],
     credentials: true,
   }),
 );
@@ -22,8 +22,8 @@ app.use('/api/v2', routes);
 
 // Error handler
 app.use(globalErrorHandler);
-// handle 404 errors
 
+// handle 404 errors
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
