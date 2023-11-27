@@ -86,6 +86,19 @@ const updateOrderController = catchAsync(
   },
 );
 
+const cancelOrderController = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await OrderService.cancelOrder(req.params.id);
+
+    sendResponse<IOrder>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Order cancelled, we will refund your money.',
+      data: result,
+    });
+  },
+);
+
 const deleteOrderController = catchAsync(
   async (req: Request, res: Response) => {
     const result = await OrderService.deleteOrder(req.params.id);
@@ -105,5 +118,6 @@ export const OrderController = {
   getAllOrdersByUserController,
   getSingleOrderController,
   updateOrderController,
+  cancelOrderController,
   deleteOrderController,
 };

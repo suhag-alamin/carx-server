@@ -36,6 +36,11 @@ router.patch(
   validateRequest(OrderValidation.updateOrderZodSchema),
   OrderController.updateOrderController,
 );
+router.patch(
+  '/cancel/:id',
+  authentication(UserRoles.User),
+  OrderController.cancelOrderController,
+);
 
 router.delete(
   '/:id',

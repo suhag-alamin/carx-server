@@ -1,15 +1,16 @@
 import httpStatus from 'http-status';
 import mongoose, { SortOrder } from 'mongoose';
 import config from '../../../config';
+import { orderStatusEnum } from '../../../enums/order';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
 import { IGenericResponse } from '../../../interfaces/global';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IPayment } from '../payment/payment.interface';
 import { Payment } from '../payment/payment.model';
+import { IUser } from '../user/user.interface';
 import { IOrder, IOrderFilters } from './order.interface';
 import { Order } from './order.mode';
-import { IUser } from '../user/user.interface';
 
 const createOrder = async (data: IOrder): Promise<IOrder | null> => {
   const { payment, ...orderData } = data;
@@ -196,6 +197,26 @@ const updateOrder = async (
   return result;
 };
 
+const cancelOrder = async (id: string): Promise<IOrder | null> => {
+  const isExist = await Order.findById(id);
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
+  }
+
+  const result = await Order.findByIdAndUpdate(
+    id,
+    {
+      orderDetails: {
+        ...isExist.orderDetails,
+        status: orderStatusEnum.cancelled,
+      },
+    },
+    { new: true },
+  );
+  return result;
+};
+
 const deleteOrder = async (id: string): Promise<IOrder | null> => {
   const result = await Order.findByIdAndDelete(id);
   return result;
@@ -207,5 +228,6 @@ export const OrderService = {
   getAllOrdersByUser,
   getSingleOrder,
   updateOrder,
+  cancelOrder,
   deleteOrder,
 };
