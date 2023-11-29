@@ -1,54 +1,93 @@
-![Logo](https://i.ibb.co/vzyR75v/logo.png)
+# Carx - Affordability at your Fingertips (Server-side)
 
-# Carx - Affordability at your fingertip (Server-side)
+![Carx Logo](https://i.ibb.co/vzyR75v/logo.png)
 
-[Visit our website](https://carx-b99bf.web.app/)
+Carx is a full-stack application that brings affordability to your fingertips. This repository contains the server-side code. For the client-side code, visit [Carx Client](https://github.com/developer-suhag/carx-client).
 
-[Client-side Code](https://github.com/developer-suhag/carx-client)
-<br>
-[API documentation](https://documenter.getpostman.com/view/22433617/2s9YeEdCs5)
+- [Visit Carx Website](https://carx-b99bf.web.app/)
+- [API Documentation](https://documenter.getpostman.com/view/22433617/2s9YeEdCs5)
 
 ## Features
 
-- Auth
-  - User can login with Google
-  - User can login with email and password
-  - User can create an account
-- Car
-  - Admin can add a car to the database
-  - Admin can delete a car from the database
-  - Admin can update a car in the database
-  - User can get all the cars from the database
-  - User can get a single car from the database
-- Order
-  - User can place an order
-  - User can get all the orders he/she placed
-  - Admin can get all the orders
-  - Admin can update the status of an order
-- Payment
-  - User can pay for an order
-  - User can get all the payments he/she made
-  - Admin can get all the payments
-- Review
-  - User can add a review
-  - User can get all the reviews he/she added
-  - Admin can get all the reviews
-  - Admin can delete a review
-- Message
-  - User can send a message
-  - Admin can get all the messages in their inbox
+### Authentication
 
-## Technology Used -
+- Users can log in with Google or email/password.
+- Users can create an account.
 
-- TypeScript
-- Node.js
-- Express.js
-- MongoDB
-- Firebase
-- Stripe
-- Node Mailer
-- Zod
+### Car Management
+
+- Admins can add, delete, and update cars in the database.
+- Users can retrieve all cars or a single car from the database.
+
+### Order Processing
+
+- Users can place orders.
+- Users can retrieve their order history.
+- Admins can view all orders and update order statuses.
+
+### Payment Handling
+
+- Users can make payments for orders.
+- Users can view their payment history.
+- Admins can access all payment records.
+
+### Review System
+
+- Users can add reviews.
+- Users can view their reviews.
+- Admins can view all reviews and delete them.
+
+### Messaging System
+
+- Users can send messages.
+- Admins can access all messages in their inbox.
+
+## Technology Stack
+
+- **Language:** TypeScript
+- **Server Framework:** Node.js with Express.js
+- **Database:** MongoDB
+- **Authentication:** Firebase
+- **Payment Processing:** Stripe
+- **Email Handling:** Node Mailer
+- **Validation:** Zod
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm installed
+- MongoDB installed and running
+- Firebase and Stripe accounts for authentication and payment features
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/developer-suhag/carx-server.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd carx-server
+```
+
+3. Install dependencies:
+
+```bash
+yarn install
+```
+
+4. Configure environment variables (refer to .env.example)
+
+5. Run the server:
+
+```bash
+yarn dev
+```
 
 ## Author
 
-### [Suhag Al Amin](https://github.com/developer-suhag)
+[Suhag Al Amin](https://suhag.me)
