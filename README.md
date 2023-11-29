@@ -14,6 +14,10 @@ Carx is a full-stack application that brings affordability to your fingertips. T
 - Users can log in with Google or email/password.
 - Users can create an account.
 
+### Admin Panel
+
+- Admin can make other users admins.
+
 ### Car Management
 
 - Admins can add, delete, and update cars in the database.
