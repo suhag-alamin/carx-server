@@ -2,7 +2,7 @@
 
 ![Carx Logo](https://i.ibb.co/vzyR75v/logo.png)
 
-Carx is a full-stack application that brings affordability to your fingertips. This repository contains the server-side code. For the client-side code, visit [Carx Client](https://github.com/developer-suhag/carx-client).
+Carx is a full-stack application that brings affordability to your fingertips. This repository contains the server-side code. For the client-side code, visit [Carx Client](https://github.com/suhag-alamin/carx-client).
 
 - [Visit Carx Website](https://carx-b99bf.web.app/)
 - [API Documentation](https://documenter.getpostman.com/view/22433617/2s9YeEdCs5)
@@ -65,7 +65,7 @@ Carx is a full-stack application that brings affordability to your fingertips. T
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/developer-suhag/carx-server.git
+git clone https://github.com/suhag-alamin/carx-server.git
 ```
 
 2. Navigate to the project directory:
