@@ -187,13 +187,30 @@ const updateOrder = async (
   id: string,
   data: Partial<IOrder>,
 ): Promise<IOrder | null> => {
+  const { orderDetails } = data;
   const isExist = await Order.findById(id);
 
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
 
-  const result = await Order.findByIdAndUpdate(id, data, { new: true });
+  if (orderDetails?.status) {
+    const result = await Order.findByIdAndUpdate(
+      { _id: id },
+      {
+        orderDetails: {
+          ...isExist.orderDetails,
+          status: orderDetails.status,
+        },
+      },
+      { new: true },
+    );
+    return result;
+  }
+
+  const result = await Order.findByIdAndUpdate({ _id: id }, data, {
+    new: true,
+  });
   return result;
 };
 
